@@ -2,7 +2,7 @@ import { Plus, Minus, Pizza } from 'lucide-react'
 
 export default function ProductCard({ produto, noCarrinho, onAdd, onRemove }) {
   return (
-    <div className="bg-white p-4 rounded-[24px] shadow-sm border border-zinc-100 flex gap-4 items-center transition-all">
+    <div className="bg-white p-3 md:p-4 rounded-[24px] shadow-sm border border-zinc-100 flex gap-3 md:gap-4 items-center transition-all w-full max-w-full overflow-hidden">
       <div className="w-24 h-24 bg-zinc-100 rounded-2xl overflow-hidden flex-shrink-0 border flex items-center justify-center text-zinc-300">
         {produto.imagem_url ? (
           <img src={produto.imagem_url} alt={produto.nome} className="w-full h-full object-cover" />
@@ -11,7 +11,7 @@ export default function ProductCard({ produto, noCarrinho, onAdd, onRemove }) {
         )}
       </div>
       
-      <div className="flex-1 min-w-0">
+      <div className="flex-1 min-w-0 overflow-hidden">
         <h3 className="font-bold text-zinc-800 text-lg leading-tight truncate">{produto.nome}</h3>
         <p className="text-zinc-500 text-[10px] line-clamp-2 mt-1 mb-2 leading-relaxed uppercase">
           {produto.descricao}

@@ -222,7 +222,7 @@ export default function Home() {
                    <h2 className="text-lg font-black italic">{nomeCategoriaAtiva}</h2>
                    <span className="text-[10px] font-bold bg-zinc-100 px-3 py-1 rounded-full">{produtosFiltrados.length} ITENS</span>
                 </div>
-                <div className="grid gap-3 md:gap-5 pb-20">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-5 pb-20 w-full max-w-full">
                     {produtosFiltrados.map((prod) => (
                         <ProductCard key={prod.id} produto={prod} noCarrinho={carrinho.filter(i => i.id === prod.id).length > 0 ? {quantidade: carrinho.filter(i => i.id === prod.id).length} : null} onAdd={handleAddClick} />
                     ))}
