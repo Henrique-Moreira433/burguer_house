@@ -4,7 +4,7 @@ import { supabase } from '../lib/supabase'
 import { 
   ShoppingCart, Trash2, MapPin, 
   MessageSquare, Truck, ArrowRight, 
-  LayoutGrid, X, ChevronLeft 
+  LayoutGrid, X, ChevronLeft, Camera
 } from 'lucide-react'
 import ProductCard from '../components/ProductCard'
 
@@ -286,6 +286,77 @@ export default function Home() {
           </div>
         </div>
       )}
-    </main>
+<footer className="bg-white border-t border-zinc-100 pt-12 pb-28 md:pb-12 px-4 mt-12">
+  <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
+    
+   {/* COLUNA 1: LOGO E REDES SOCIAIS */}
+    <div className="flex flex-col items-center md:items-start">
+      <h3 className="font-black italic text-orange-600 text-xl mb-2 uppercase tracking-tighter">
+        BURGUER HOUSE
+      </h3>
+      
+      {/* Novo Título da Sessão */}
+      <h4 className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em] mb-4">
+        Contatos
+      </h4>
+
+      <div className="flex gap-3">
+        {/* Instagram: Altura ajustada (p-2.5) e arredondado (rounded-full) */}
+        <a 
+          href="https://www.instagram.com/burguerhausee?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="bg-zinc-100 p-2.5 rounded-full text-zinc-600 hover:bg-[#E1306C] hover:text-white transition-all shadow-sm flex items-center justify-center"
+        >
+          <Camera size={18} />
+        </a>
+
+        {/* WhatsApp: Altura ajustada (p-2.5) */}
+        <a 
+          href="https://wa.me/5561985613049" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="bg-zinc-100 p-2.5 rounded-full text-zinc-600 hover:bg-[#25D366] hover:text-white transition-all shadow-sm flex items-center justify-center"
+        >
+          <MessageSquare size={18} />
+        </a>
+      </div>
+    </div>
+
+    {/* COLUNA 2: HORÁRIOS */}
+    <div className="flex flex-col items-center md:items-start">
+      <h4 className="font-black text-zinc-900 text-sm mb-4 uppercase tracking-widest">Horários</h4>
+      <div className="space-y-1">
+        <p className="text-zinc-400 text-[10px] font-bold">TERÇA A DOMINGO</p>
+        <p className="text-zinc-600 text-xs font-black italic">20:00 ÀS 00:00</p>
+        <p className="text-zinc-400 text-[10px] font-bold mt-2">SEXTA E SÁBADO</p>
+        <p className="text-zinc-600 text-xs font-black italic">20:00 ÀS 00:00</p>
+      </div>
+    </div>
+
+    {/* COLUNA 3: LOCALIZAÇÃO */}
+    <div className="flex flex-col items-center md:items-start">
+      <h4 className="font-black text-zinc-900 text-sm mb-4 uppercase tracking-widest">Onde Estamos</h4>
+      <div className="flex items-start gap-2 justify-center md:justify-start">
+        <MapPin size={16} className="text-orange-600 flex-shrink-0" />
+        <p className="text-zinc-500 text-xs font-bold leading-tight">
+         Qr 1029 Conjunto 1 Casa 8, 8 - Samambaia Norte <br>
+         </br>
+         Brasilia - DF<br>
+         </br>
+         CEP: 72338-660
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  {/* RODAPÉ FINAL: CRÉDITOS */}
+  <div className="text-center mt-12 pt-8 border-t border-zinc-50">
+    <p className="text-[10px] text-zinc-300 font-black uppercase tracking-[0.2em]">
+      © 2026 Burguer House • Desenvolvido por Henrique Moreira
+    </p>
+  </div>
+</footer>    </main>
   )
 }
