@@ -1,0 +1,22 @@
+{
+  "name": "burguer_house",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.104.0",
+    "@tailwindcss/postcss": "^4.2.4",
+    "autoprefixer": "latest",
+    "lucide-react": "latest",
+    "next": "latest",
+    "postcss": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "supabase": "latest",
+    "tailwindcss": "latest"
+  }
+}
