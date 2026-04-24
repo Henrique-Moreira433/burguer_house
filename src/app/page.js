@@ -170,18 +170,67 @@ export default function Home() {
                   }
                </div>
 
-               {/* Endereço */}
                <div className="bg-white rounded-[24px] md:rounded-[32px] p-5 shadow-sm border border-zinc-100 space-y-3">
-                  <div className="relative"><MapPin size={16} className="absolute left-4 top-4 text-orange-600"/><input type="text" placeholder="Endereço de entrega..." value={endereco} onChange={(e) => setEndereco(e.target.value)} className="w-full bg-zinc-50 rounded-xl p-3.5 pl-11 text-xs outline-none"/></div>
-               </div>
-
+                  {/* Campo de Endereço */}
+                  <div className="relative">
+                    <MapPin size={16} className="absolute left-4 top-4 text-orange-600"/>
+                    <input 
+                      type="text" 
+                      placeholder="Endereço de entrega..." 
+                      value={endereco} 
+                      onChange={(e) => setEndereco(e.target.value)} 
+                      className="w-full bg-zinc-50 rounded-xl p-3.5 pl-11 text-xs outline-none focus:ring-2 focus:ring-orange-500/20 transition-all"
+                    />
+                  </div>
+                  
+                  {/* Novo Campo de Observação */}
+                  <div className="relative">
+                    <MessageSquare size={16} className="absolute left-4 top-4 text-zinc-400"/>
+                    <textarea 
+                      placeholder="Alguma observação? (Ex: Sem cebola, tirar picles...)" 
+                      value={observacao} 
+                      onChange={(e) => setObservacao(e.target.value)} 
+                      className="w-full bg-zinc-50 rounded-xl p-3.5 pl-11 text-xs outline-none focus:ring-2 focus:ring-orange-500/20 transition-all min-h-[80px] resize-none"
+                    />
+                  </div>
+                </div>
                <div className="bg-white rounded-[24px] md:rounded-[32px] p-6 shadow-sm border border-zinc-100">
-                  <div className="flex justify-between text-sm mb-2 text-zinc-500"><span>Subtotal</span><span>{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(valorProdutos)}</span></div>
-                  <div className="flex justify-between font-black text-lg italic border-t pt-4"><span>Total</span><span className="text-orange-600">{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(valorProdutos + taxaEntrega)}</span></div>
-                  <button onClick={finalizarPedido} className="w-full mt-6 bg-green-600 text-white py-4 rounded-xl font-black uppercase tracking-widest text-xs">Finalizar Pedido</button>
-               </div>
+                <div className="space-y-2 mb-4">
+                  <div className="flex justify-between text-xs font-bold text-zinc-400 uppercase tracking-widest">
+                    <span>Itens do Pedido</span>
+                    <span>{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(valorProdutos)}</span>
+                  </div>
+                  
+                  {/* Aparece apenas se houver extras no carrinho */}
+                  {carrinho.some(item => item.extras?.length > 0) && (
+                    <div className="flex justify-between text-[10px] text-zinc-400 italic">
+                      <span>Total em Adicionais</span>
+                      <span>+ {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(
+                        carrinho.reduce((acc, item) => acc + (item.extras.reduce((a, b) => a + b.preco, 0) * item.quantidade), 0)
+                      )}</span>
+                    </div>
+                  )}
+
+                  <div className="flex justify-between text-xs font-bold text-green-600 uppercase tracking-widest border-b border-zinc-50 pb-2">
+                    <span>Taxa de Entrega</span>
+                    <span>+ {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(taxaEntrega)}</span>
+                  </div>
+                </div>
+
+                <div className="flex justify-between items-end">
+                  <span className="font-black text-xl italic uppercase tracking-tighter text-zinc-900">Total Geral</span>
+                  <span className="text-3xl font-black text-orange-600 tracking-tighter">
+                    {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(valorProdutos + taxaEntrega)}
+                  </span>
+                </div>
+                
+                <button onClick={finalizarPedido} className="w-full mt-6 bg-green-600 text-white py-4 rounded-xl font-black uppercase tracking-widest text-xs shadow-xl shadow-green-100 hover:bg-green-700 active:scale-95 transition-all">
+                  Finalizar Pedido
+                </button>
+              </div>
             </div>
           </div>
+          
         ) : !catAtiva ? (
           /* --- HOME: CATEGORIAS EM GRID FLEXÍVEL --- */
           <div className="mt-2">
