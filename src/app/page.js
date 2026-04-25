@@ -16,7 +16,7 @@ const getCatImage = (nome) => {
   if (n.includes('tradicional')) return "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=800&auto=format&fit=crop";
   if (n.includes('artesanal') && !n.includes('caixa')) return "https://images.unsplash.com/photo-1596662951482-0c4ba74a6df6?q=80&w=800&auto=format&fit=crop";
   if (n.includes('caixa')) return "https://images.unsplash.com/photo-1551782450-a2132b4ba21d?q=80&w=800&auto=format&fit=crop";
-  if (n.includes('batata')) return "https://images.unsplash.com/photo-1518013034841-59490346506f?q=80&w=800&auto=format&fit=crop";
+  if (n.includes('completas')) return "https://images.unsplash.com/photo-1518013034841-59490346506f?q=80&w=800&auto=format&fit=crop";
   if (n.includes('porç')) return "https://images.unsplash.com/photo-1562967914-608f82629710?q=80&w=800&auto=format&fit=crop";
   if (n.includes('bebi')) return "https://images.unsplash.com/photo-1527960471264-932f39eb5846?q=80&w=800&auto=format&fit=crop";
   return "https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=800&auto=format&fit=crop";
