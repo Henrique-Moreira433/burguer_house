@@ -11,14 +11,14 @@ import ProductCard from '../components/ProductCard'
 
 const getCatImage = (nome) => {
   const n = nome.toLowerCase();
-  if (n.includes('pedido')) return "https://images.unsplash.com/photo-1594179047519-f347310d3322?q=80&w=800&auto=format&fit=crop";
-  if (n.includes('promo')) return "https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=800&auto=format&fit=crop";
-  if (n.includes('tradicional')) return "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=800&auto=format&fit=crop";
-  if (n.includes('artesanal') && !n.includes('caixa')) return "https://images.unsplash.com/photo-1596662951482-0c4ba74a6df6?q=80&w=800&auto=format&fit=crop";
-  if (n.includes('caixa')) return "https://images.unsplash.com/photo-1551782450-a2132b4ba21d?q=80&w=800&auto=format&fit=crop";
-  if (n.includes('completas')) return "https://images.unsplash.com/photo-1518013034841-59490346506f?q=80&w=800&auto=format&fit=crop";
-  if (n.includes('porç')) return "https://images.unsplash.com/photo-1562967914-608f82629710?q=80&w=800&auto=format&fit=crop";
-  if (n.includes('bebi')) return "https://images.unsplash.com/photo-1527960471264-932f39eb5846?q=80&w=800&auto=format&fit=crop";
+  if (n.includes('favoritos')) return "https://gwugyyztwqwxnjdrrknh.supabase.co/storage/v1/object/public/categorias/mais%20pedidos.png";
+  if (n.includes('promo')) return "https://gwugyyztwqwxnjdrrknh.supabase.co/storage/v1/object/public/categorias/combos_promocionais.png";
+  if (n.includes('tradicionais')) return "https://gwugyyztwqwxnjdrrknh.supabase.co/storage/v1/object/public/categorias/hamburguer_tradicional.png";
+  if (n.includes('artesanais') && !n.includes('caixa')) return "https://gwugyyztwqwxnjdrrknh.supabase.co/storage/v1/object/public/categorias/hambuguer_artesanal.png";
+  if (n.includes('caixa')) return "https://gwugyyztwqwxnjdrrknh.supabase.co/storage/v1/object/public/categorias/combos_caixa.png";
+  if (n.includes('completas')) return "https://gwugyyztwqwxnjdrrknh.supabase.co/storage/v1/object/public/categorias/batata_completa.png";
+  if (n.includes('porções')) return "https://gwugyyztwqwxnjdrrknh.supabase.co/storage/v1/object/public/categorias/porcoes.png";
+  if (n.includes('bebi')) return "https://gwugyyztwqwxnjdrrknh.supabase.co/storage/v1/object/public/categorias/bebidas.png";
   return "https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=800&auto=format&fit=crop";
 };
 
