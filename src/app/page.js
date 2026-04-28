@@ -237,10 +237,24 @@ export default function Home() {
             <h2 className="text-zinc-900 text-xl font-black italic mb-6">O que vamos pedir hoje?</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
               {categorias.map((cat) => (
-                <button key={cat.id} onClick={() => setCatAtiva(cat.id)} className="group relative h-48 md:h-64 w-full rounded-[24px] md:rounded-[32px] overflow-hidden shadow-lg border-4 border-white transition-all">
-                  <img src={getCatImage(cat.nome)} alt={cat.nome} className="absolute inset-0 h-full w-full object-cover" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
-                  <div className="absolute bottom-0 left-0 p-5 md:p-8"><span className="text-lg md:text-2xl font-black text-white italic">{cat.nome}</span></div>
+                <button 
+                  key={cat.id} 
+                  onClick={() => setCatAtiva(cat.id)} 
+                  className="group relative h-48 md:h-64 w-full rounded-[24px] md:rounded-[32px] overflow-hidden shadow-lg border-4 border-white transition-all active:scale-95"
+                >
+                  <img src={getCatImage(cat.nome)} alt={cat.nome} className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                  
+                  {/* Gradiente reforçado na base para suporte ao texto */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-80" />
+                  
+                  <div className="absolute bottom-0 left-0 p-5 md:p-8">
+                    <span 
+                      className="text-lg md:text-2xl font-black text-white italic uppercase tracking-tighter"
+                      style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }} // A "Bat-Sombra" para legibilidade
+                    >
+                      {cat.nome}
+                    </span>
+                  </div>
                 </button>
               ))}
             </div>
