@@ -243,6 +243,12 @@ export default function Home() {
                   className="group relative h-48 md:h-64 w-full rounded-[24px] md:rounded-[32px] overflow-hidden shadow-lg border-4 border-white transition-all active:scale-95"
                 >
                   <img src={getCatImage(cat.nome)} alt={cat.nome} className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                  {cat.nome.toLowerCase().includes('favoritos') && (
+                    <div className="absolute top-3 right-3 z-10 bg-orange-600 text-white px-3 py-1 rounded-full flex items-center gap-1 shadow-lg border border-white/20">
+                      <span className="text-xs">🔥</span>
+                      <span className="text-[10px] font-black uppercase tracking-widest">Mais Pedidos</span>
+                    </div>
+                  )}
                   
                   {/* Gradiente reforçado na base para suporte ao texto */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-80" />
