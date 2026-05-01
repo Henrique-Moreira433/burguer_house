@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react'
-import { supabase } from '../../lib/supabase'
+import { createBrowserClient } from '@supabase/ssr'
 import { useRouter } from 'next/navigation'
 import { Lock, User, Utensils, AlertCircle } from 'lucide-react'
 
@@ -11,25 +11,37 @@ export default function LoginPage() {
   const [carregando, setCarregando] = useState(false)
   const router = useRouter()
 
+
+  const supabase = createBrowserClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  )
+
   async function handleLogin(e) {
     e.preventDefault()
     setErro(null)
     setCarregando(true)
 
-    // Tentativa de autenticação no Supabase
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password: senha,
-    })
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password: senha,
+      })
 
-    if (error) {
-      setErro("Credenciais inválidas. Verifique seu e-mail e senha.")
+      if (error) {
+        setErro("Credenciais inválidas ou e-mail não confirmado.")
+        setCarregando(false)
+      } else {
+        
+        router.push('/admin')
+        router.refresh() 
+      }
+    } catch (err) {
+      setErro("Erro na comunicação com o servidor.")
       setCarregando(false)
-    } else {
-      // Login com sucesso -> Redireciona para o painel administrativo
-      router.push('/admin')
     }
   }
+
 
   return (
     <main className="min-h-screen bg-orange-600 flex items-center justify-center p-4 font-sans">

@@ -1,10 +1,14 @@
 'use client'
 import { useEffect, useState } from 'react'
-import { supabase } from '../../lib/supabase'
+import { createBrowserClient } from '@supabase/ssr'
 import { LayoutDashboard, Package, DollarSign, Power, Save, ChevronLeft, Search } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
 export default function AdminPage() {
+  const supabase = createBrowserClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  )
   const [produtos, setProdutos] = useState([])
   const [loading, setLoading] = useState(true)
   const [filtro, setFiltro] = useState('')
