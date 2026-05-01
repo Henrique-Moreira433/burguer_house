@@ -9,6 +9,12 @@ export default function AdminPage() {
     process.env.NEXT_PUBLIC_SUPABASE_URL,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
   )
+  
+  const handleLogout = async () => {
+  await supabase.auth.signOut()
+  router.push('/login')
+  router.refresh() 
+}
   const [produtos, setProdutos] = useState([])
   const [loading, setLoading] = useState(true)
   const [filtro, setFiltro] = useState('')
@@ -68,6 +74,7 @@ export default function AdminPage() {
   return (
     <main className="min-h-screen bg-zinc-50 font-sans text-zinc-900">
       {/* Header Admin */}
+      
       <header className="bg-zinc-900 p-6 text-white sticky top-0 z-50">
         <div className="flex items-center justify-between max-w-6xl mx-auto">
           <div className="flex items-center gap-4">
@@ -78,8 +85,18 @@ export default function AdminPage() {
               <LayoutDashboard className="text-orange-500" /> PAINEL GESTÃO
             </h1>
           </div>
-          <div className="text-[10px] font-bold bg-orange-600 px-3 py-1 rounded-full uppercase">
-            Admin Logado
+          
+          <div className="flex items-center gap-4">
+            <div className="hidden md:block text-[10px] font-bold bg-orange-600 px-3 py-1 rounded-full uppercase">
+              Admin Logado
+            </div>
+            <button 
+              onClick={handleLogout}
+              className="flex items-center gap-2 bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white px-4 py-2 rounded-xl text-xs font-bold transition-all border border-red-500/20"
+            >
+              <Power size={16} />
+              SAIR
+            </button>
           </div>
         </div>
       </header>
