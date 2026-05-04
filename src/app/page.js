@@ -38,6 +38,9 @@ export default function Home() {
   const [catAtiva, setCatAtiva] = useState(null)
   const [mostrarCarrinho, setMostrarCarrinho] = useState(false)
   const [loading, setLoading] = useState(true)
+  const [metodoPagamento, setMetodoPagamento] = useState('') // 'pix', 'cartao', 'dinheiro'
+  const [precisaTroco, setPrecisaTroco] = useState(false)
+  const [valorTroco, setValorTroco] = useState('')
 
   const [produtoEmCustomizacao, setProdutoEmCustomizacao] = useState(null)
   const [pontoCarne, setPontoCarne] = useState('Ao Ponto')
@@ -110,6 +113,10 @@ export default function Home() {
   const finalizarPedido = () => {
     if (!endereco.trim()) return alert('Informe o endereço!')
     let mensagem = `*🍔 NOVO PEDIDO - BURGUER HOUSE*%0A%0A*📍 ENTREGA:* ${endereco}%0A`;
+    mensagem += `*💳 PAGAMENTO:* ${metodoPagamento.toUpperCase()}%0A`;
+    if (metodoPagamento === 'dinheiro' && precisaTroco) {
+    mensagem += `*💵 TROCO PARA:* R$ ${valorTroco}%0A`;
+    }
     if(observacao) mensagem += `*📝 OBS:* ${observacao}%0A%0A`;
     mensagem += `*--- ITENS ---*%0A`;
     carrinho.forEach(item => {
@@ -193,6 +200,48 @@ export default function Home() {
                       className="w-full bg-zinc-50 rounded-xl p-3.5 pl-11 text-xs outline-none focus:ring-2 focus:ring-orange-500/20 transition-all min-h-[80px] resize-none"
                     />
                   </div>
+                  {/* --- INSERIR AQUI O BLOCO DE PAGAMENTO --- */}
+                  <div className="mt-6 pt-6 border-t border-zinc-100 space-y-4">
+                    <h3 className="text-xs font-black uppercase tracking-widest text-zinc-400">Forma de Pagamento</h3>
+                    <div className="grid grid-cols-3 gap-2">
+                      {['Pix', 'Cartão', 'Dinheiro'].map((tipo) => (
+                        <button
+                          key={tipo}
+                          onClick={() => setMetodoPagamento(tipo.toLowerCase())}
+                          className={`py-3 rounded-xl text-[10px] font-black uppercase transition-all border-2 ${
+                            metodoPagamento === tipo.toLowerCase() 
+                            ? 'border-orange-500 bg-orange-50 text-orange-600' 
+                            : 'border-transparent bg-zinc-50 text-zinc-500'
+                          }`}
+                        >
+                          {tipo}
+                        </button>
+                      ))}
+                    </div>
+
+                    {metodoPagamento === 'dinheiro' && (
+                      <div className="space-y-3 animate-in fade-in slide-in-from-top-2 duration-300">
+                        <label className="flex items-center gap-2 cursor-pointer">
+                          <input 
+                            type="checkbox" 
+                            checked={precisaTroco}
+                            onChange={(e) => setPrecisaTroco(e.target.checked)}
+                            className="w-4 h-4 accent-orange-600 rounded"
+                          />
+                          <span className="text-xs font-bold text-zinc-600">Precisa de troco?</span>
+                        </label>
+                        {precisaTroco && (
+                          <input 
+                            type="text"
+                            placeholder="Troco para quanto?"
+                            value={valorTroco}
+                            onChange={(e) => setValorTroco(e.target.value)}
+                            className="w-full bg-zinc-50 p-3.5 rounded-xl text-xs outline-none focus:ring-2 focus:ring-orange-500/20"
+                          />
+                        )}
+                      </div>
+                    )}
+                  </div>
                 </div>
                <div className="bg-white rounded-[24px] md:rounded-[32px] p-6 shadow-sm border border-zinc-100">
                 <div className="space-y-2 mb-4">
@@ -224,9 +273,14 @@ export default function Home() {
                   </span>
                 </div>
                 
-                <button onClick={finalizarPedido} className="w-full mt-6 bg-green-600 text-white py-4 rounded-xl font-black uppercase tracking-widest text-xs shadow-xl shadow-green-100 hover:bg-green-700 active:scale-95 transition-all">
-                  Finalizar Pedido
-                </button>
+                <button 
+                  onClick={finalizarPedido} 
+                  disabled={!metodoPagamento || (metodoPagamento === 'dinheiro' && precisaTroco && !valorTroco)}
+                  className="w-full mt-6 bg-green-600 text-white py-4 rounded-xl font-black uppercase tracking-widest text-xs shadow-xl shadow-green-100 hover:bg-green-700 active:scale-95 transition-all disabled:opacity-30 disabled:cursor-not-allowed disabled:grayscale"
+                >
+                  {/* O texto dentro do botão pode ser dinâmico para avisar o cliente */}
+                  {!metodoPagamento ? "Selecione o Pagamento" : "Finalizar Pedido"}
+              </button>
               </div>
             </div>
           </div>
