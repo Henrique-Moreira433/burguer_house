@@ -145,7 +145,7 @@ export default function Home() {
                 <ChevronLeft size={22} />
               </button>
             )}
-            <h1 className="text-xl md:text-3xl font-black text-orange-600 italic tracking-tighter truncate">BURGUER HOUSE</h1>
+            <h1 className="text-xl md:text-3xl font-black text-orange-600 italic tracking-tighter truncate pr-2">BURGUER HOUSE</h1>
           </div>
           <button onClick={() => setMostrarCarrinho(true)} className="relative bg-orange-600 p-2.5 md:p-3 rounded-2xl text-white flex-shrink-0">
             <ShoppingCart size={22} />
