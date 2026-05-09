@@ -103,7 +103,7 @@ export default function AdminPage() {
 
       <section className="p-6 max-w-6xl mx-auto">
         {/* Cards de Resumo */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6 mb-8">
           <div className="bg-white p-6 rounded-[32px] shadow-sm border border-zinc-100">
             <Package className="text-orange-500 mb-2" />
             <p className="text-zinc-400 text-xs font-bold uppercase">Total de Itens</p>
@@ -125,50 +125,64 @@ export default function AdminPage() {
           </div>
         </div>
 
-        {/* Tabela de Gestão */}
+        {/* Container Principal */}
         <div className="bg-white rounded-[32px] shadow-sm border border-zinc-100 overflow-hidden">
-          <table className="w-full text-left border-collapse">
-            <thead className="bg-zinc-50 border-b border-zinc-100">
-              <tr>
-                <th className="p-6 text-[10px] font-black uppercase text-zinc-400">Produto</th>
-                <th className="p-6 text-[10px] font-black uppercase text-zinc-400">Preço (R$)</th>
-                <th className="p-6 text-[10px] font-black uppercase text-zinc-400 text-center">Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {produtosFiltrados.map((prod) => (
-                <tr key={prod.id} className="border-b border-zinc-50 hover:bg-zinc-50 transition-colors">
-                  <td className="p-6">
-                    <p className="font-bold text-zinc-800">{prod.nome}</p>
-                    <p className="text-[10px] text-zinc-400 uppercase">{prod.categorias?.nome}</p>
-                  </td>
-                  <td className="p-6">
+          {/* Cabeçalho visível apenas em Desktop */}
+          <div className="hidden md:grid grid-cols-4 bg-zinc-50 border-b border-zinc-100 p-6">
+            <div className="text-[10px] font-black uppercase text-zinc-400 col-span-2">Produto</div>
+            <div className="text-[10px] font-black uppercase text-zinc-400">Preço (R$)</div>
+            <div className="text-[10px] font-black uppercase text-zinc-400 text-center">Status</div>
+          </div>
+
+          <div className="divide-y divide-zinc-50">
+            {produtosFiltrados.map((prod) => (
+              <div key={prod.id} className="p-5 md:p-6 flex flex-col md:grid md:grid-cols-4 gap-4 md:gap-0 items-start md:items-center hover:bg-zinc-50 transition-colors">
+                
+                {/* Lado Esquerdo: Info do Produto */}
+                <div className="col-span-2 w-full">
+                  <p className="font-bold text-zinc-800 text-base md:text-sm leading-tight">{prod.nome}</p>
+                  <p className="text-[10px] text-zinc-400 uppercase font-bold tracking-widest mt-1">
+                    {prod.categorias?.nome}
+                  </p>
+                </div>
+
+                {/* Lado Direito: Controles (Preço e Botão) */}
+                <div className="flex items-center justify-between w-full md:contents">
+                  {/* Preço */}
+                  <div className="flex flex-col md:block">
+                    <span className="md:hidden text-[9px] font-black text-zinc-300 uppercase mb-1">Preço</span>
                     <input 
                       type="text" 
                       defaultValue={prod.preco.toFixed(2)} 
                       onBlur={(e) => atualizarPreco(prod.id, e.target.value)}
-                      className="w-24 bg-zinc-100 p-2 rounded-xl font-bold text-sm outline-none focus:ring-2 focus:ring-green-500"
+                      className="w-20 md:w-24 bg-zinc-100 p-2 rounded-xl font-black text-xs outline-none focus:ring-2 focus:ring-green-500 text-center"
                     />
-                  </td>
-                  <td className="p-6 text-center">
+                  </div>
+
+                  {/* Botão de Status */}
+                  <div className="flex flex-col items-end md:items-center">
+                    <span className="md:hidden text-[9px] font-black text-zinc-300 uppercase mb-1">Status</span>
                     <button 
                       onClick={() => alternarDisponibilidade(prod.id, prod.disponivel)}
                       disabled={salvando === prod.id}
-                      className={`p-3 rounded-2xl transition-all ${
+                      className={`p-3 md:p-3.5 rounded-2xl transition-all ${
                         prod.disponivel 
-                        ? 'bg-green-100 text-green-600 hover:bg-green-200' 
-                        : 'bg-red-100 text-red-500 hover:bg-red-200'
+                        ? 'bg-green-100 text-green-600 hover:bg-green-600 hover:text-white' 
+                        : 'bg-red-100 text-red-500 hover:bg-red-500 hover:text-white'
                       }`}
                     >
-                      {salvando === prod.id ? <div className="w-5 h-5 border-2 border-current border-t-transparent animate-spin rounded-full"/> : <Power size={20} />}
+                      {salvando === prod.id ? (
+                        <div className="w-5 h-5 border-2 border-current border-t-transparent animate-spin rounded-full"/>
+                      ) : (
+                        <Power size={18} />
+                      )}
                     </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </section>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>      </section>
     </main>
   )
 }

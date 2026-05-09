@@ -91,20 +91,38 @@ export default function Home() {
   }
 
   const adicionarAoCarrinhoFinal = (produto, ponto, extras) => {
-    const precoExtras = extras.reduce((acc, ex) => acc + ex.preco, 0)
-    const novoItem = {
-      ...produto,
-      cartId: Math.random().toString(36).substr(2, 9),
-      ponto,
-      extras,
-      precoTotal: produto.preco + precoExtras,
-      quantidade: 1
+    // 1. Criamos uma chave única baseada no produto + ponto + IDs dos extras
+    const extrasIds = extras.map(e => e.id).sort().join('-');
+    const itemChave = `${produto.id}-${ponto}-${extrasIds}`;
+
+    // 2. Verificamos se esse item idêntico já existe no carrinho
+    const itemExistenteIndex = carrinho.findIndex(item => item.itemChave === itemChave);
+
+    if (itemExistenteIndex !== -1) {
+      // Se existe, apenas aumentamos a quantidade do item existente
+      const novoCarrinho = [...carrinho];
+      novoCarrinho[itemExistenteIndex].quantidade += 1;
+      setCarrinho(novoCarrinho);
+    } else {
+      // Se não existe, adicionamos como novo item
+      const precoExtras = extras.reduce((acc, ex) => acc + ex.preco, 0);
+      const novoItem = {
+        ...produto,
+        cartId: Math.random().toString(36).substr(2, 9), // Mantemos para o 'key' do React[cite: 6]
+        itemChave, // Usamos para futuras comparações[cite: 6]
+        ponto,
+        extras,
+        precoTotal: produto.preco + precoExtras,
+        quantidade: 1
+      };
+      setCarrinho([...carrinho, novoItem]);
     }
-    setCarrinho([...carrinho, novoItem])
-    setProdutoEmCustomizacao(null)
-    setExtrasSelecionados([])
-    setPontoCarne('Ao Ponto')
-  }
+
+    // Limpeza dos estados de customização[cite: 6]
+    setProdutoEmCustomizacao(null);
+    setExtrasSelecionados([]);
+    setPontoCarne('Ao Ponto');
+  };
 
   const removerDoCarrinho = (cartId) => {
     setCarrinho(carrinho.filter(item => item.cartId !== cartId))
@@ -167,14 +185,25 @@ export default function Home() {
                   {totalItens === 0 ? <p className="text-center text-zinc-400 py-10">Vazio...</p> : 
                     carrinho.map(item => (
                       <div key={item.cartId} className="flex justify-between items-center py-4 border-b border-zinc-50 last:border-0 last:pb-0">
-                         <div className="pr-4">
-                           <p className="font-bold text-sm">{item.nome}</p>
-                           <p className="text-xs text-orange-600 font-black">{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(item.precoTotal)}</p>
-                         </div>
-                         <button onClick={() => removerDoCarrinho(item.cartId)} className="p-2 text-red-500 bg-red-50 rounded-lg"><Trash2 size={16}/></button>
+                        <div className="pr-4">
+                          {/* Adicionamos a quantidade (ex: 13x) antes do nome[cite: 6] */}
+                          <p className="font-bold text-sm">
+                            <span className="text-orange-600 mr-1">{item.quantidade}x</span> {item.nome}
+                          </p>
+                          
+                          {/* Mostramos o preço unitário ou o subtotal do grupo[cite: 6] */}
+                          <p className="text-xs text-zinc-400 font-medium">
+                            {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(item.precoTotal * item.quantidade)}
+                          </p>
+                          
+                          {/* Exibe detalhes extras se houver[cite: 6] */}
+                          {item.ponto && <p className="text-[10px] text-zinc-400 italic">Ponto: {item.ponto}</p>}
+                        </div>
+                        <button onClick={() => removerDoCarrinho(item.cartId)} className="p-2 text-red-500 bg-red-50 rounded-lg">
+                          <Trash2 size={16}/>
+                        </button>
                       </div>
-                    ))
-                  }
+                    ))}                 
                </div>
 
                <div className="bg-white rounded-[24px] md:rounded-[32px] p-5 shadow-sm border border-zinc-100 space-y-3">
@@ -346,9 +375,22 @@ export default function Home() {
                    <span className="text-[10px] font-bold bg-zinc-100 px-3 py-1 rounded-full">{produtosFiltrados.length} ITENS</span>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-5 pb-20 w-full max-w-full">
-                    {produtosFiltrados.map((prod) => (
-                        <ProductCard key={prod.id} produto={prod} noCarrinho={carrinho.filter(i => i.id === prod.id).length > 0 ? {quantidade: carrinho.filter(i => i.id === prod.id).length} : null} onAdd={handleAddClick} />
-                    ))}
+                    {produtosFiltrados.map((prod) => {
+                        // Calculamos a quantidade total deste produto específico no carrinho
+                        const qtdNoCarrinho = carrinho
+                          .filter(item => item.id === prod.id)
+                          .reduce((acc, item) => acc + item.quantidade, 0);
+
+                        return (
+                            <ProductCard 
+                              key={prod.id} 
+                              produto={prod} 
+                              // Se a quantidade for > 0, passamos o valor para o card exibir
+                              noCarrinho={qtdNoCarrinho > 0 ? { quantidade: qtdNoCarrinho } : null} 
+                              onAdd={handleAddClick} 
+                            />
+                        );
+                    })}
                 </div>
             </div>
           </div>
